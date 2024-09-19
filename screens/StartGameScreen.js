@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 0.25,
     padding: 16,
-    backgroundColor: '#72063c'
+    backgroundColor: '#4e0329'
   }, 
   numberInput: {
     height: 50,
