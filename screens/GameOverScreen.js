@@ -1,28 +1,53 @@
-import { StyleSheet, Text, View, Image, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Image, useWindowDimensions, ScrollView } from "react-native";
 import Title from "../components/ui/Title";
 import Colors from "../constants/colors";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
 function GameOverScreen({ roundsNumber, userNumber, onStartNewGame }) {
+  const { width, height } = useWindowDimensions();
+
+  let imageSize = 300;
+
+  if (width < 380) {
+    imageSize = 150;
+  }
+
+  if (height < 400) {
+    imageSize = 80;
+  }
+
+  const imageStyle = {
+    width: imageSize,
+    height: imageSize,
+    borderRadius: imageSize / 2
+  }
+
   return (
-    <View style={styles.screen}>
-      <Title style={styles.title}>GAME OVER!</Title>
-      <View style={styles.imageContaienr}>
-        <Image source={require("../assets/images/success.png")} style={styles.image} />
+    <ScrollView style={styles.outerScreen}>
+      <View style={styles.screen}>
+        <Title style={styles.title}>GAME OVER!</Title>
+        <View style={[styles.imageContaienr, imageStyle]}>
+          <Image source={require("../assets/images/success.png")} style={styles.image} />
+        </View>
+        <Text style={styles.summaryText}>
+          Your device took <Text style={styles.highlight}>{roundsNumber}</Text> tries to guess the number <Text style={styles.highlight}>{userNumber}</Text>.
+        </Text>
+        <PrimaryButton onPress={onStartNewGame}>Start New Game</PrimaryButton>
       </View>
-      <Text style={styles.summaryText}>
-        Your device took <Text style={styles.highlight}>{roundsNumber}</Text> tries to guess the number <Text style={styles.highlight}>{userNumber}</Text>.
-      </Text>
-      <PrimaryButton onPress={onStartNewGame}>Start New Game</PrimaryButton>
-    </View>
+    </ScrollView>
   );
 }
 
 export default GameOverScreen;
 
-const deviceWidth = Dimensions.get('window').width;
+// const deviceWidth = Dimensions.get('window').width;
+
+
 
 const styles = StyleSheet.create({
+  outerScreen: {
+    flex: 1
+  },
   screen: {
     flex: 1,
     padding: 24,
@@ -31,9 +56,9 @@ const styles = StyleSheet.create({
   },
   imageContaienr: {
     borderRadius: 150,
-    width: deviceWidth < 380 ? 150 : 300,
-    height: deviceWidth < 380 ? 150 : 300,
-    borderWidth: deviceWidth < 380 ? 75 : 150,
+    // width: deviceWidth < 380 ? 150 : 300,
+    // height: deviceWidth < 380 ? 150 : 300,
+    // borderWidth: deviceWidth < 380 ? 75 : 150,
     borderColor: Colors.primary800,
     overflow: 'hidden',
     margin: 36,
@@ -41,7 +66,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-  }, 
+  },
   summaryText: {
     fontFamily: 'open-sans',
     fontSize: 24,
